@@ -1,8 +1,8 @@
-﻿using System;
-using System.Web.Security;
-
-namespace GiveCRM.Admin.Web.Services
+﻿namespace GiveCRM.Admin.Web.Services
 {
+    using System;
+    using System.Web.Security;
+
     public class AspMembershipMember : IMember
     {
         private readonly MembershipUser aspMembershipUser;
@@ -25,6 +25,19 @@ namespace GiveCRM.Admin.Web.Services
         public string Email
         {
             get { return aspMembershipUser.Email; }
+        }
+
+        public Guid Id
+        {
+            get
+            {
+                if (aspMembershipUser.ProviderUserKey == null)
+                {
+                    return Guid.Empty;
+                }
+                
+                return (Guid) this.aspMembershipUser.ProviderUserKey;
+            }
         }
     }
 }
