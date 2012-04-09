@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using GiveCRM.Admin.Models;
 using NUnit.Framework;
 using Simple.Data;
@@ -14,12 +11,13 @@ namespace GiveCRM.Admin.DataAccess.Test
         [TestFixture]
         public class GetAllShould
         {
-            private readonly dynamic db = Database.OpenFile("TestDB.sdf");
+            private readonly IDatabaseProvider db = new SimpleDataFileDatabaseProvider();
 
             [SetUp]
             public void Setup()
             {
-                db.CharityMembership.DeleteAll();
+                dynamic dbConnection = db.GetDatabase();
+                dbConnection.CharityMembership.DeleteAll();
             }
 
             [Test]
@@ -49,12 +47,13 @@ namespace GiveCRM.Admin.DataAccess.Test
         [TestFixture]
         public class GetByIdShould
         {
-            private readonly dynamic db = Database.OpenFile("TestDB.sdf");
+            private readonly IDatabaseProvider db = new SimpleDataFileDatabaseProvider();
 
             [SetUp]
-            public void SetUp()
+            public void Setup()
             {
-                db.CharityMembership.DeleteAll();
+                dynamic dbConnection = db.GetDatabase();
+                dbConnection.CharityMembership.DeleteAll();
             }
 
             [Test]
@@ -87,12 +86,13 @@ namespace GiveCRM.Admin.DataAccess.Test
         [TestFixture]
         public class SaveShould
         {
-            private readonly dynamic db = Database.OpenFile("TestDB.sdf");
+            private readonly IDatabaseProvider db = new SimpleDataFileDatabaseProvider();
 
             [SetUp]
-            public void SetUp()
+            public void Setup()
             {
-                db.CharityMembership.DeleteAll();
+                dynamic dbConnection = db.GetDatabase();
+                dbConnection.CharityMembership.DeleteAll();
             }
 
             [Test]
@@ -115,19 +115,20 @@ namespace GiveCRM.Admin.DataAccess.Test
         [TestFixture]
         public class DeleteShould
         {
-            private readonly dynamic db = Database.OpenFile("TestDB.sdf");
+            private readonly IDatabaseProvider db = new SimpleDataFileDatabaseProvider();
             private CharityMembership charityMembership;
             
             [SetUp]
             public void SetUp()
             {
-                db.CharityMembership.DeleteAll();
-
-                charityMembership = db.CharityMembership.Insert(new CharityMembership
-                                                                    {
-                                                                        CharityId = 58,
-                                                                        UserName = "test"
-                                                                    });
+                dynamic dbConnection = db.GetDatabase();
+                dbConnection.CharityMembership.DeleteAll(); 
+                
+                charityMembership = dbConnection.CharityMembership.Insert(new CharityMembership
+                {
+                    CharityId = 58,
+                    UserName = "test"
+                });
             }
 
             [Test]
@@ -155,19 +156,20 @@ namespace GiveCRM.Admin.DataAccess.Test
         [TestFixture]
         public class DeleteByIdShould
         {
-            private readonly dynamic db = Database.OpenFile("TestDB.sdf");
+            private readonly IDatabaseProvider db = new SimpleDataFileDatabaseProvider();
             private CharityMembership charityMembership;
 
             [SetUp]
             public void SetUp()
             {
-                db.CharityMembership.DeleteAll();
+                dynamic dbConnection = db.GetDatabase();
+                dbConnection.CharityMembership.DeleteAll();
 
-                charityMembership = db.CharityMembership.Insert(new CharityMembership
-                                                                    {
-                                                                        CharityId = 58,
-                                                                        UserName = "test"
-                                                                    });
+                charityMembership = dbConnection.CharityMembership.Insert(new CharityMembership
+                {
+                    CharityId = 58,
+                    UserName = "test"
+                });
             }
 
             [Test]

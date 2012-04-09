@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using GiveCRM.Admin.BusinessLogic;
 using GiveCRM.Admin.Models;
 
@@ -11,9 +8,9 @@ namespace GiveCRM.Admin.DataAccess
     {
         private readonly dynamic db;
 
-        public CharitiesMemberships(dynamic connection)
+        public CharitiesMemberships(IDatabaseProvider databaseProvider)
         {
-            db = connection;
+            db = databaseProvider.GetDatabase();
         }
 
         public CharityMembership GetById(int id)

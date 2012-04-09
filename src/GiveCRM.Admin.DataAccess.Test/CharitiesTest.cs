@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
 using GiveCRM.Admin.Models;
-using NUnit.Framework;
-using Simple.Data;
-
 namespace GiveCRM.Admin.DataAccess.Test
 {
+    using NUnit.Framework;
+
     [TestFixture]
     public class CharitiesTest
     {
@@ -23,7 +20,8 @@ namespace GiveCRM.Admin.DataAccess.Test
         [SetUp]
         public void SetUp()
         {
-            db.GetDatabase().Charity.DeleteAll();
+            dynamic dbConnection = db.GetDatabase();
+            dbConnection.Charity.DeleteAll();
         }
 
         [Test]
