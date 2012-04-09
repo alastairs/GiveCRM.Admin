@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace GiveCRM.Admin.Models
+﻿namespace GiveCRM.Admin.Models
 {
     public class CharityMembership
     {
