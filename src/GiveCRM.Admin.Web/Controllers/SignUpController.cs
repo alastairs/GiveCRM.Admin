@@ -1,51 +1,37 @@
-﻿using System;
-using System.Text.RegularExpressions;
-using System.Web.Mvc;
-using AutoMapper;
-using GiveCRM.Admin.BusinessLogic;
-using GiveCRM.Admin.Models;
-using GiveCRM.Admin.Web.Extensions;
-using GiveCRM.Admin.Web.Helpers;
-using GiveCRM.Admin.Web.Interfaces;
-using GiveCRM.Admin.Web.Services;
-using GiveCRM.Admin.Web.ViewModels.SignUp;
-using IConfiguration = GiveCRM.Admin.Web.Interfaces.IConfiguration;
-
-namespace GiveCRM.Admin.Web.Controllers
+﻿namespace GiveCRM.Admin.Web.Controllers
 {
+    using System;
+    using System.Text.RegularExpressions;
+    using System.Web.Mvc;
+
+    using AutoMapper;
+    
+    using GiveCRM.Admin.BusinessLogic;
+    using GiveCRM.Admin.Models;
+    using GiveCRM.Admin.Web.Helpers;
+    using GiveCRM.Admin.Web.Services;
+    using GiveCRM.Admin.Web.ViewModels.SignUp;
+    using IConfiguration = GiveCRM.Admin.Web.Interfaces.IConfiguration;
+
     public class SignUpController : Controller
     {
         private readonly IConfiguration configuration;
-        private readonly ISignUpQueueingService signUpQueueingService;
-        private readonly ICharityMembershipService charityMembershipService;
-        private readonly IMembershipService membershipService;
+        private readonly ISignupService signupService;
 
-        public SignUpController(IConfiguration configuration, ISignUpQueueingService signUpQueueingService, ICharityMembershipService charityMembershipService, IMembershipService membershipService)
+        public SignUpController(IConfiguration configuration, ISignupService signupService)
         {
             if (configuration == null)
             {
                 throw new ArgumentNullException("configuration");
             }
 
-            if (signUpQueueingService == null)
+            if (signupService == null)
             {
-                throw new ArgumentNullException("signUpQueueingService");
-            }
-
-            if (charityMembershipService == null)
-            {
-                throw new ArgumentNullException("charityMembershipService");
-            }
-
-            if (membershipService == null)
-            {
-                throw new ArgumentNullException("membershipService");
+                throw new ArgumentNullException("signupService");
             }
 
             this.configuration = configuration;
-            this.signUpQueueingService = signUpQueueingService;
-            this.charityMembershipService = charityMembershipService;
-            this.membershipService = membershipService;
+            this.signupService = signupService;
         }
 
         [HttpGet]
@@ -64,7 +50,7 @@ namespace GiveCRM.Admin.Web.Controllers
             
             var registrationInfo = GetRegistrationInfo(requiredInfoViewModel);
 
-            var userRegistrationStatus = this.RegisterUser(registrationInfo);
+            var userRegistrationStatus = this.signupService.RegisterUser(registrationInfo);
             if (userRegistrationStatus != UserCreationResult.Success)
             {
                 return this.HandleUserRegistrationError(requiredInfoViewModel, userRegistrationStatus);
@@ -72,10 +58,10 @@ namespace GiveCRM.Admin.Web.Controllers
 
             if (userRegistrationStatus == UserCreationResult.Success)
             {
-                if (this.CreateCharity(registrationInfo))
+                if (this.signupService.RegisterCharity(registrationInfo))
                 {
-                    this.ProvisionService(requiredInfoViewModel, TokenHelper.CreateRandomIdentifier());
-                    this.TempData["SubDomain"] = GetSubDomainFromCharityName(requiredInfoViewModel.CharityName);
+                    this.signupService.ProvisionCharity(registrationInfo, TokenHelper.CreateRandomIdentifier());
+                    this.TempData["SubDomain"] = this.signupService.GetSubDomainFromCharityName(requiredInfoViewModel.CharityName);
 
                     return this.RedirectToAction("Complete");
                 }
@@ -115,13 +101,6 @@ namespace GiveCRM.Admin.Web.Controllers
             return View("SignUp", requiredInfoViewModel);
         }
 
-        private UserCreationResult RegisterUser(RegistrationInfo registrationInfo)
-        {
-            string userIdentifier = registrationInfo.EmailAddress;
-            var userRegistrationStatus = this.membershipService.CreateUser(userIdentifier, registrationInfo.Password, userIdentifier);
-            return userRegistrationStatus;
-        }
-
         private static RegistrationInfo GetRegistrationInfo(RequiredInfoViewModel requiredInfoViewModel)
         {
             var registrationInfo = new RegistrationInfo();
@@ -129,29 +108,18 @@ namespace GiveCRM.Admin.Web.Controllers
             return registrationInfo;
         }
 
-        private void ProvisionService(RequiredInfoViewModel requiredInfoViewModel, Guid activationToken)
-        {
-            var emailViewModel = new EmailViewModel
-                                     {
-                                         To = requiredInfoViewModel.UserIdentifier,
-                                         ActivationToken = activationToken.AsQueryString()
-                                     };
+        // TODO: Move this to SignupService in BusinessLogic layer.
+        //private void ProvisionService(RequiredInfoViewModel requiredInfoViewModel, Guid activationToken)
+        //{
+        //    var emailViewModel = new EmailViewModel
+        //                             {
+        //                                 To = requiredInfoViewModel.UserIdentifier,
+        //                                 ActivationToken = activationToken.AsQueryString()
+        //                             };
 
-            signUpQueueingService.QueueEmail(emailViewModel);
-            signUpQueueingService.QueueProvisioning();
-        }
-
-        private bool CreateCharity(RegistrationInfo registrationInfo)
-        {
-            var membershipUser = membershipService.GetUser(registrationInfo.EmailAddress);
-            if (membershipUser != null)
-            {
-                var user = new User {Email = membershipUser.Email, Username = membershipUser.UserName};
-                return charityMembershipService.RegisterCharityWithUser(registrationInfo, user);
-            }
-
-            return false;
-        }
+        //    signUpQueueingService.QueueEmail(emailViewModel);
+        //    signUpQueueingService.QueueProvisioning();
+        //}
 
         [HttpGet]
         public ActionResult Complete()
@@ -164,12 +132,6 @@ namespace GiveCRM.Admin.Web.Controllers
                                 }.WithConfig(configuration);
 
             return View(viewModel);
-        }
-
-        private static string GetSubDomainFromCharityName(string charityName)
-        {
-            var result = Regex.Replace(charityName, @"[\s]", "-");
-            return Regex.Replace(result, @"[^\w-]", "").ToLower();
         }
 
         [HttpPost]
@@ -187,7 +149,7 @@ namespace GiveCRM.Admin.Web.Controllers
 
         public ActionResult StartSite(string id)
         {
-            var subDomain = GetSubDomainFromActivationToken(id);
+            var subDomain = this.signupService.GetSubDomainFromActivationToken(id);
 
             var viewModel = new StartSiteViewModel
                                 {
@@ -196,13 +158,6 @@ namespace GiveCRM.Admin.Web.Controllers
                                 };
 
             return View(viewModel);
-        }
-
-        private string GetSubDomainFromActivationToken(string activationToken)
-        {
-            //TODO get this from database
-            var token = "";
-            return token == null ? "" : token.ToString();
         }
     }
 }

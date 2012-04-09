@@ -6,6 +6,8 @@ using NUnit.Framework;
 
 namespace GiveCRM.Admin.Web.Tests.Services
 {
+    using GiveCRM.Admin.Models;
+
     [TestFixture]
     public class AspMembershipServiceFacts
     {

@@ -1,4 +1,4 @@
-namespace GiveCRM.Admin.Web.Services
+namespace GiveCRM.Admin.Models
 {
     using System;
 

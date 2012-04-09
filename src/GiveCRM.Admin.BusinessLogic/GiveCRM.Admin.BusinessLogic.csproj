@@ -47,8 +47,11 @@
     <Compile Include="ICharitiesMembershipRepository.cs" />
     <Compile Include="ICharityMembershipService.cs" />
     <Compile Include="ICharityRepository.cs" />
+    <Compile Include="IMembershipService.cs" />
     <Compile Include="IRepository.cs" />
+    <Compile Include="ISignupService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SignupService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GiveCRM.Admin.Models\GiveCRM.Admin.Models.csproj">

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Web.Security;
+    using GiveCRM.Admin.Models;
 
     public class AspMembershipMember : IMember
     {

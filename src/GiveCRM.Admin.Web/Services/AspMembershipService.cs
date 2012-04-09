@@ -3,6 +3,9 @@ using System.Web.Security;
 
 namespace GiveCRM.Admin.Web.Services
 {
+    using GiveCRM.Admin.BusinessLogic;
+    using GiveCRM.Admin.Models;
+
     public class AspMembershipService : IMembershipService
     {
         private readonly MembershipProvider membershipProvider;
