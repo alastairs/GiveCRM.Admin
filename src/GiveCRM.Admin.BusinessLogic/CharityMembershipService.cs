@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Transactions;
 using GiveCRM.Admin.Models;
 
 namespace GiveCRM.Admin.BusinessLogic
@@ -28,7 +27,6 @@ namespace GiveCRM.Admin.BusinessLogic
                 throw new ArgumentNullException("user");
             }
 
-            bool result = false;
             var charity = new Charity
             {
                 Name = registrationInfo.CharityName,
@@ -36,25 +34,21 @@ namespace GiveCRM.Admin.BusinessLogic
                 SubDomain = registrationInfo.SubDomain
             };
 
-            using (var scope = new TransactionScope())
+            var newCharity = charityRepository.Save(charity);
+            if (newCharity == null) throw new ArgumentNullException("newCharity");
+
+            var newCharityMembership = this.charitiesMembershipRepository.Save(new CharityMembership
             {
-                var newCharity = charityRepository.Save(charity);
-                if (newCharity == null) throw new ArgumentNullException("newCharity");
+                CharityId = newCharity.Id,
+                UserName = registrationInfo.EmailAddress
+            });
 
-                var charityMembership = new CharityMembership
-                {
-                    CharityId = newCharity.Id,
-                    UserName = registrationInfo.UserIdentifier
-                };
-                var newCharityMembership = charitiesMembershipRepository.Save(charityMembership);
-
-                if (newCharityMembership != null)
-                {
-                    result = true;
-                    scope.Complete();
-                }
+            if (newCharityMembership != null)
+            {
+                return true;
             }
-            return result;
+
+            return false;
         }
     }
 }
