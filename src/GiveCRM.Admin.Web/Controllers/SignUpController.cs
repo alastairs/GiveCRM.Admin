@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
-using System.Web.Security;
 using AutoMapper;
 using GiveCRM.Admin.BusinessLogic;
 using GiveCRM.Admin.Models;
@@ -62,40 +61,72 @@ namespace GiveCRM.Admin.Web.Controllers
             {
                 return View(requiredInfoViewModel);
             }
+            
+            var registrationInfo = GetRegistrationInfo(requiredInfoViewModel);
 
-            var subDomain = GetSubDomainFromCharityName(requiredInfoViewModel.CharityName);
-            var activationToken = TokenHelper.CreateRandomIdentifier();
-
-            var registrationInfo = new RegistrationInfo();
-            Mapper.DynamicMap(requiredInfoViewModel, registrationInfo);
-
-            string userIdentifier = registrationInfo.UserIdentifier;
-            var userRegistrationStatus = membershipService.CreateUser(userIdentifier, registrationInfo.Password, userIdentifier);
-            if (userRegistrationStatus == UserCreationResult.DuplicateEmail)
+            var userRegistrationStatus = this.RegisterUser(registrationInfo);
+            if (userRegistrationStatus != UserCreationResult.Success)
             {
-                ModelState.AddModelError("UserIdentifier",
-                                         "You have already registered with GiveCRM.  Would you like to log in instead?");
-                return View(requiredInfoViewModel);
+                return this.HandleUserRegistrationError(requiredInfoViewModel, userRegistrationStatus);
             }
 
             if (userRegistrationStatus == UserCreationResult.Success)
             {
-                bool result = CreateCharity(registrationInfo);
-
-                if (result)
+                if (this.CreateCharity(registrationInfo))
                 {
-                    ProvisionService(requiredInfoViewModel, activationToken);
-                    TempData["SubDomain"] = subDomain;
+                    this.ProvisionService(requiredInfoViewModel, TokenHelper.CreateRandomIdentifier());
+                    this.TempData["SubDomain"] = GetSubDomainFromCharityName(requiredInfoViewModel.CharityName);
 
-                    return RedirectToAction("Complete");
+                    return this.RedirectToAction("Complete");
                 }
 
-                ModelState.AddModelError("", "Charity registration failed. Please contact support.");
-                return View();
+                this.ModelState.AddModelError("", "Charity registration failed. Please contact support.");
+                return this.View();
             }
 
             ModelState.AddModelError("", "User registration failed. Please contact support.");
             return View();
+        }
+
+        private ActionResult HandleUserRegistrationError(RequiredInfoViewModel requiredInfoViewModel, UserCreationResult userRegistrationStatus)
+        {
+            string modelErrorKey;
+            string modelErrorMessage;
+
+            switch (userRegistrationStatus)
+            {
+                case UserCreationResult.DuplicateEmail:
+                    {
+                        modelErrorKey = "EmailAddress";
+                        modelErrorMessage = "You have already registered with GiveCRM.  Would you like to log in instead?";
+                    }
+                    break;
+                case UserCreationResult.DuplicateUsername:
+                    {
+                        modelErrorKey = "UserIdentifier";
+                        modelErrorMessage = "You have already registered with GiveCRM.  Would you like to log in instead?";
+                    }
+                    break;
+                default:
+                    throw new ArgumentException("Unknown value of UserCreationResult", "userRegistrationStatus");
+            }
+
+            this.ModelState.AddModelError(modelErrorKey, modelErrorMessage);
+            return View("SignUp", requiredInfoViewModel);
+        }
+
+        private UserCreationResult RegisterUser(RegistrationInfo registrationInfo)
+        {
+            string userIdentifier = registrationInfo.EmailAddress;
+            var userRegistrationStatus = this.membershipService.CreateUser(userIdentifier, registrationInfo.Password, userIdentifier);
+            return userRegistrationStatus;
+        }
+
+        private static RegistrationInfo GetRegistrationInfo(RequiredInfoViewModel requiredInfoViewModel)
+        {
+            var registrationInfo = new RegistrationInfo();
+            Mapper.DynamicMap(requiredInfoViewModel, registrationInfo);
+            return registrationInfo;
         }
 
         private void ProvisionService(RequiredInfoViewModel requiredInfoViewModel, Guid activationToken)
@@ -112,7 +143,7 @@ namespace GiveCRM.Admin.Web.Controllers
 
         private bool CreateCharity(RegistrationInfo registrationInfo)
         {
-            var membershipUser = membershipService.GetUser(registrationInfo.UserIdentifier);
+            var membershipUser = membershipService.GetUser(registrationInfo.EmailAddress);
             if (membershipUser != null)
             {
                 var user = new User {Email = membershipUser.Email, Username = membershipUser.UserName};
@@ -138,7 +169,7 @@ namespace GiveCRM.Admin.Web.Controllers
         private static string GetSubDomainFromCharityName(string charityName)
         {
             var result = Regex.Replace(charityName, @"[\s]", "-");
-            return Regex.Replace(result, @"[^\w-]", "");
+            return Regex.Replace(result, @"[^\w-]", "").ToLower();
         }
 
         [HttpPost]
