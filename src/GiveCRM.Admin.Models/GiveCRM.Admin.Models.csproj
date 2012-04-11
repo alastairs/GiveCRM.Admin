@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Charity.cs" />
+    <Compile Include="CharityCreationResult.cs" />
     <Compile Include="CharityMembership.cs" />
     <Compile Include="Encryption.cs" />
     <Compile Include="IMember.cs" />
