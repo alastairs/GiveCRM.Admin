@@ -187,7 +187,20 @@
             [Test]
             public void ReturnInvalidSubdomainResult_WhenTheSubdomainContainsASlashCharacter()
             {
-                CharityCreationResult result = CharityCreationResult.UnexpectedFailure;
+                var membershipService = Substitute.For<IMembershipService>();
+                var charityMembershipService = Substitute.For<ICharityMembershipService>();
+                charityMembershipService.RegisterCharityWithUser(null, null).ReturnsForAnyArgs(CharityCreationResult.InvalidSubdomain);
+                var signupService = new SignupService(membershipService, charityMembershipService);
+
+                var result = signupService.RegisterCharity(new RegistrationInfo
+                {
+                    CharityName = "Charity",
+                    EmailAddress = "foo@charity.org",
+                    Password = "Char.1ty",
+                    SubDomain = "char/ity",
+                    TermsAccepted = true
+                });
+
                 Assert.That(result, Is.EqualTo(CharityCreationResult.InvalidSubdomain));
             }
 
