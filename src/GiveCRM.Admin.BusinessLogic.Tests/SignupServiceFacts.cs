@@ -142,7 +142,19 @@
             [Test]
             public void ReturnSuccessResult_WhenThereAreNoProblemsRegistering()
             {
-                CharityCreationResult result = CharityCreationResult.UnexpectedFailure;
+                var membershipService = Substitute.For<IMembershipService>();
+                var charityMembershipService = Substitute.For<ICharityMembershipService>();
+                var signupService = new SignupService(membershipService, charityMembershipService);
+
+                var result = signupService.RegisterCharity(new RegistrationInfo
+                {
+                    CharityName = "Charity",
+                    EmailAddress = "foo@charity.org",
+                    Password = "Char.1ty",
+                    SubDomain = "charity",
+                    TermsAccepted = true
+                });
+
                 Assert.That(result, Is.EqualTo(CharityCreationResult.Success));
             }
 
