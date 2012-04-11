@@ -20,7 +20,7 @@ namespace GiveCRM.Admin.BusinessLogic
             this.charitiesMembershipRepository = charitiesMembershipRepository;
         }
 
-        public bool RegisterCharityWithUser(RegistrationInfo registrationInfo, User user)
+        public CharityCreationResult RegisterCharityWithUser(RegistrationInfo registrationInfo, User user)
         {
             if (user == null)
             {
@@ -45,10 +45,10 @@ namespace GiveCRM.Admin.BusinessLogic
 
             if (newCharityMembership != null)
             {
-                return true;
+                return CharityCreationResult.Success;
             }
 
-            return false;
+            return CharityCreationResult.UnexpectedFailure;
         }
     }
 }

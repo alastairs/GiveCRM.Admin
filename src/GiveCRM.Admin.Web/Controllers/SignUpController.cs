@@ -58,7 +58,8 @@
 
             if (userRegistrationStatus == UserCreationResult.Success)
             {
-                if (this.signupService.RegisterCharity(registrationInfo))
+                var charityRegistrationStatus = this.signupService.RegisterCharity(registrationInfo);
+                if (charityRegistrationStatus == CharityCreationResult.Success)
                 {
                     this.signupService.ProvisionCharity(registrationInfo, TokenHelper.CreateRandomIdentifier());
                     this.TempData["SubDomain"] = this.signupService.GetSubDomainFromCharityName(requiredInfoViewModel.CharityName);

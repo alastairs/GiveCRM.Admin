@@ -4,6 +4,6 @@ namespace GiveCRM.Admin.BusinessLogic
 {
     public interface ICharityMembershipService
     {
-        bool RegisterCharityWithUser(RegistrationInfo registrationInfo, User user);
+        CharityCreationResult RegisterCharityWithUser(RegistrationInfo registrationInfo, User user);
     }
 }

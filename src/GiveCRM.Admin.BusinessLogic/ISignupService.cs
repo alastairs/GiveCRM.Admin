@@ -8,7 +8,7 @@
     {
         void ProvisionCharity(RegistrationInfo registrationInfo, Guid activationToken);
         UserCreationResult RegisterUser(RegistrationInfo registrationInfo);
-        bool RegisterCharity(RegistrationInfo registrationInfo);
+        CharityCreationResult RegisterCharity(RegistrationInfo registrationInfo);
         string GetSubDomainFromCharityName(string charityName);
         string GetSubDomainFromActivationToken(string activationToken);
     }

@@ -43,7 +43,7 @@
                                             };
 
             var controller = new SignUpController(configuration, this.signupService);
-            signupService.RegisterCharity(null).ReturnsForAnyArgs(true);
+            signupService.RegisterCharity(null).ReturnsForAnyArgs(CharityCreationResult.Success);
             var result = controller.SignUp(requiredInfoViewModel);
             result.AssertActionRedirect().ToAction("Complete");
         }
@@ -93,7 +93,7 @@
                                             };
 
             var controller = new SignUpController(configuration, this.signupService);
-            signupService.RegisterCharity(null).ReturnsForAnyArgs(false);
+            signupService.RegisterCharity(null).ReturnsForAnyArgs(CharityCreationResult.UnexpectedFailure);
             var result = controller.SignUp(requiredInfoViewModel);
             
             result.AssertViewRendered();

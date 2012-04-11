@@ -37,7 +37,7 @@
             return userRegistrationStatus;
         }
 
-        public bool RegisterCharity(RegistrationInfo registrationInfo)
+        public CharityCreationResult RegisterCharity(RegistrationInfo registrationInfo)
         {
             var membershipUser = this.membershipService.GetUser(registrationInfo.EmailAddress);
             if (membershipUser != null)
@@ -46,7 +46,7 @@
                 return this.charityMembershipService.RegisterCharityWithUser(registrationInfo, user);
             }
 
-            return false;
+            return CharityCreationResult.UnexpectedFailure;
         }
 
         public string GetSubDomainFromCharityName(string charityName)
