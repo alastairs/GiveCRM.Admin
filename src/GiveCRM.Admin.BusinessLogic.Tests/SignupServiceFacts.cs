@@ -226,6 +226,7 @@
         }
 
         [TestFixture]
+        [Ignore("These tests don't currently have a home.")]
         public class MiscFacts
         {
             [Test]
