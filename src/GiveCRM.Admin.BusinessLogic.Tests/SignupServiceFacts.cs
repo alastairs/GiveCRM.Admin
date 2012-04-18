@@ -170,7 +170,7 @@
             {
                 var membershipService = Substitute.For<IMembershipService>();
                 var charityMembershipService = Substitute.For<ICharityMembershipService>();
-                charityMembershipService.RegisterCharityWithUser(null, null).ReturnsForAnyArgs(CharityCreationResult.InvalidSubdomain);
+                charityMembershipService.RegisterCharity(null).ReturnsForAnyArgs(CharityCreationResult.InvalidSubdomain);
                 var signupService = new SignupService(membershipService, charityMembershipService);
 
                 var result = signupService.RegisterCharity(new RegistrationInfo
@@ -190,7 +190,7 @@
             {
                 var membershipService = Substitute.For<IMembershipService>();
                 var charityMembershipService = Substitute.For<ICharityMembershipService>();
-                charityMembershipService.RegisterCharityWithUser(null, null).ReturnsForAnyArgs(CharityCreationResult.InvalidSubdomain);
+                charityMembershipService.RegisterCharity(null).ReturnsForAnyArgs(CharityCreationResult.InvalidSubdomain);
                 var signupService = new SignupService(membershipService, charityMembershipService);
 
                 var result = signupService.RegisterCharity(new RegistrationInfo
@@ -210,7 +210,7 @@
             {
                 var membershipService = Substitute.For<IMembershipService>();
                 var charityMembershipService = Substitute.For<ICharityMembershipService>();
-                charityMembershipService.RegisterCharityWithUser(null, null).ReturnsForAnyArgs(CharityCreationResult.DuplicateSubdomain);
+                charityMembershipService.RegisterCharity(null).ReturnsForAnyArgs(CharityCreationResult.DuplicateSubdomain);
                 var signupService = new SignupService(membershipService, charityMembershipService);
 
                 var result = signupService.RegisterCharity(new RegistrationInfo

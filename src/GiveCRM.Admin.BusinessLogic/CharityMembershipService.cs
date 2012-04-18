@@ -10,7 +10,11 @@ namespace GiveCRM.Admin.BusinessLogic
 
         public CharityMembershipService(ICharityRepository charityRepository, ICharitiesMembershipRepository charitiesMembershipRepository)
         {
-            if (charityRepository == null) throw new ArgumentNullException("charityRepository");
+            if (charityRepository == null)
+            {
+                throw new ArgumentNullException("charityRepository");
+            }
+
             if (charitiesMembershipRepository == null)
             {
                 throw new ArgumentNullException("charitiesMembershipRepository");
@@ -20,27 +24,33 @@ namespace GiveCRM.Admin.BusinessLogic
             this.charitiesMembershipRepository = charitiesMembershipRepository;
         }
 
-        public CharityCreationResult RegisterCharityWithUser(RegistrationInfo registrationInfo, User user)
+        public CharityCreationResult RegisterCharity(RegistrationInfo registrationInfo)
+        {
+            if (registrationInfo == null)
+            {
+                throw new ArgumentNullException("registrationInfo");
+            }
+
+            var newCharity = this.CreateCharity(registrationInfo);
+            if (newCharity == null)
+            {
+                return CharityCreationResult.UnexpectedFailure;
+            }
+
+            return CharityCreationResult.Success;
+        }
+
+        public CharityCreationResult RegisterCharityWithUser(Charity charity, User user)
         {
             if (user == null)
             {
                 throw new ArgumentNullException("user");
             }
 
-            var charity = new Charity
-            {
-                Name = registrationInfo.CharityName,
-                RegisteredCharityNumber = registrationInfo.CharityName,
-                SubDomain = registrationInfo.SubDomain
-            };
-
-            var newCharity = charityRepository.Save(charity);
-            if (newCharity == null) throw new ArgumentNullException("newCharity");
-
             var newCharityMembership = this.charitiesMembershipRepository.Save(new CharityMembership
             {
-                CharityId = newCharity.Id,
-                UserName = registrationInfo.EmailAddress
+                CharityId = charity.Id,
+                UserName = user.Email
             });
 
             if (newCharityMembership != null)
@@ -49,6 +59,18 @@ namespace GiveCRM.Admin.BusinessLogic
             }
 
             return CharityCreationResult.UnexpectedFailure;
+        }
+
+        private Charity CreateCharity(RegistrationInfo registrationInfo)
+        {
+            var charity = new Charity
+                              {
+                                  Name = registrationInfo.CharityName,
+                                  SubDomain = registrationInfo.SubDomain
+                              };
+
+            var newCharity = this.charityRepository.Save(charity);
+            return newCharity;
         }
     }
 }

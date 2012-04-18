@@ -42,8 +42,7 @@
             var membershipUser = this.membershipService.GetUser(registrationInfo.EmailAddress);
             if (membershipUser != null)
             {
-                var user = new User { Email = membershipUser.Email, Username = membershipUser.UserName };
-                return this.charityMembershipService.RegisterCharityWithUser(registrationInfo, user);
+                return this.charityMembershipService.RegisterCharity(registrationInfo);
             }
 
             return CharityCreationResult.UnexpectedFailure;
