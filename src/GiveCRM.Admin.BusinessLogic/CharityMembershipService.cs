@@ -31,7 +31,13 @@ namespace GiveCRM.Admin.BusinessLogic
                 throw new ArgumentNullException("registrationInfo");
             }
 
-            var newCharity = this.CreateCharity(registrationInfo);
+            var charity = new Charity
+                              {
+                                  Name = registrationInfo.CharityName,
+                                  SubDomain = registrationInfo.SubDomain
+                              };
+
+            var newCharity = this.charityRepository.Save(charity);
             if (newCharity == null)
             {
                 return CharityCreationResult.UnexpectedFailure;
@@ -59,18 +65,6 @@ namespace GiveCRM.Admin.BusinessLogic
             }
 
             return CharityCreationResult.UnexpectedFailure;
-        }
-
-        private Charity CreateCharity(RegistrationInfo registrationInfo)
-        {
-            var charity = new Charity
-                              {
-                                  Name = registrationInfo.CharityName,
-                                  SubDomain = registrationInfo.SubDomain
-                              };
-
-            var newCharity = this.charityRepository.Save(charity);
-            return newCharity;
         }
     }
 }

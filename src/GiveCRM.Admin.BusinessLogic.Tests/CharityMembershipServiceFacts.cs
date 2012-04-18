@@ -8,6 +8,30 @@
     public class CharityMembershipServiceFacts
     {
         [TestFixture]
+        public class RegisterCharityShould
+        {
+            [Test]
+            public void ReturnSuccessResult_WhenThereAreNoProblemsCreatingTheCharity()
+            {
+                var charityRepository = Substitute.For<ICharityRepository>();
+                charityRepository.Save(null).ReturnsForAnyArgs(new Charity());
+                var charitiesMembersRepository = Substitute.For<ICharitiesMembershipRepository>();
+                var charityMembershipService = new CharityMembershipService(charityRepository, charitiesMembersRepository);
+
+                var result = charityMembershipService.RegisterCharity(new RegistrationInfo
+                {
+                    CharityName = "Foo",
+                    EmailAddress = "foo@bar.com",
+                    Password = "password",
+                    SubDomain = "foo",
+                    TermsAccepted = true
+                });
+
+                Assert.That(result, Is.EqualTo(CharityCreationResult.Success));
+            }
+        }
+
+        [TestFixture]
         public class RegisterCharityWithUserShould
         {
             [Test]
