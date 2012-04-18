@@ -1,5 +1,6 @@
 ﻿namespace GiveCRM.Admin.BusinessLogic.Tests
 {
+    using System;
     using GiveCRM.Admin.BusinessLogic;
     using GiveCRM.Admin.Models;
     using NSubstitute;
@@ -222,6 +223,29 @@
                 });
 
                 Assert.That(result, Is.EqualTo(CharityCreationResult.DuplicateSubdomain));
+            }
+        }
+
+        [TestFixture]
+        public class ProvisionCharityShould
+        {
+            [Test]
+            public void ReturnSuccessResult_WhenThereAreNoProblemsProvisioning()
+            {
+                var membershipService = Substitute.For<IMembershipService>();
+                var charityMembershipService = Substitute.For<ICharityMembershipService>();
+                var signupService = new SignupService(membershipService, charityMembershipService);
+
+                var result = signupService.ProvisionCharity(new RegistrationInfo
+                {
+                    CharityName = "Foo",
+                    EmailAddress = "foo@bar.com",
+                    Password = "password",
+                    SubDomain = "foo",
+                    TermsAccepted = true
+                }, Guid.NewGuid());
+
+                Assert.That(result, Is.EqualTo(CharityProvisioningResult.Success));
             }
         }
 

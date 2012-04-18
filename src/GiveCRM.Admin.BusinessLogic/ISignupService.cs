@@ -6,7 +6,7 @@
 
     public interface ISignupService
     {
-        void ProvisionCharity(RegistrationInfo registrationInfo, Guid activationToken);
+        CharityProvisioningResult ProvisionCharity(RegistrationInfo registrationInfo, Guid activationToken);
         UserCreationResult RegisterUser(RegistrationInfo registrationInfo);
         CharityCreationResult RegisterCharity(RegistrationInfo registrationInfo);
         string GetSubDomainFromCharityName(string charityName);

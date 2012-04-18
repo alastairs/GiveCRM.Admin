@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CharityMembershipService.cs" />
+    <Compile Include="CharityProvisioningResult.cs" />
     <Compile Include="ICharitiesMembershipRepository.cs" />
     <Compile Include="ICharityMembershipService.cs" />
     <Compile Include="ICharityRepository.cs" />

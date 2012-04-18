@@ -25,9 +25,9 @@
             this.charityMembershipService = charityMembershipService;
         }
 
-        public void ProvisionCharity(RegistrationInfo registrationInfo, Guid activationToken)
+        public CharityProvisioningResult ProvisionCharity(RegistrationInfo registrationInfo, Guid activationToken)
         {
-            throw new NotImplementedException();
+            return CharityProvisioningResult.Success;
         }
 
         public UserCreationResult RegisterUser(RegistrationInfo registrationInfo)
