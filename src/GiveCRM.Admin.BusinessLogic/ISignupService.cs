@@ -1,7 +1,7 @@
 ﻿namespace GiveCRM.Admin.BusinessLogic
 {
     using System;
-
+    using GiveCRM.Admin.BusinessLogic.Tests;
     using GiveCRM.Admin.Models;
 
     public interface ISignupService
@@ -11,5 +11,6 @@
         CharityCreationResult RegisterCharity(RegistrationInfo registrationInfo);
         string GetSubDomainFromCharityName(string charityName);
         string GetSubDomainFromActivationToken(string activationToken);
+        OptionalSignupInformationValidationResult SaveOptionalSignupInformation();
     }
 }

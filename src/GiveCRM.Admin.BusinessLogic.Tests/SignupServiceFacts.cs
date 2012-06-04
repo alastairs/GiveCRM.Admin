@@ -250,22 +250,18 @@
         }
 
         [TestFixture]
-        [Ignore("These tests don't currently have a home.")]
-        public class MiscFacts
+        public class SaveOptionalSignupInformationShould
         {
             [Test]
-            public void ReturnInvalidUsernameResult_WhenTheUsernameContainsForbiddenCharacters()
+            public void ReturnSuccessResult_WhenTheUsernameAndCharityNumberAreOk()
             {
                 // Needs fleshing out with individual test cases for each forbidden character
-                UserCreationResult result = UserCreationResult.UnexpectedFailure;
-                Assert.That(result, Is.EqualTo(UserCreationResult.InvalidUsername));
-            }
+                var signupService = new SignupService(Substitute.For<IMembershipService>(), Substitute.For<ICharityMembershipService>());
+                var optionalSignupInformation = new OptionalSignupInformation {  };
 
-            [Test]
-            public void ReturnDuplicateUsernameResult_WhenTheUsernameHasAlreadyBeenRegistered()
-            {
-                UserCreationResult result = UserCreationResult.UnexpectedFailure;
-                Assert.That(result, Is.EqualTo(UserCreationResult.DuplicateUsername));
+                OptionalSignupInformationValidationResult result = signupService.SaveOptionalSignupInformation();
+
+                Assert.That(result, Is.EqualTo(OptionalSignupInformationValidationResult.Success));
             }
 
             [Test]
@@ -282,6 +278,29 @@
             {
                 CharityCreationResult result = CharityCreationResult.UnexpectedFailure;
                 Assert.That(result, Is.EqualTo(CharityCreationResult.DuplicateCharityNumber));
+            }
+        }
+
+        [TestFixture]
+        [Ignore("These tests don't currently have a home.")]
+        public class MiscFacts
+        {
+            [Test]
+            public void ReturnInvalidUsernameResult_WhenTheUsernameContainsForbiddenCharacters()
+            {
+                // Needs fleshing out with individual test cases for each forbidden character
+                var signupService = new SignupService(Substitute.For<IMembershipService>(), Substitute.For<ICharityMembershipService>());
+
+                OptionalSignupInformationValidationResult result = signupService.SaveOptionalSignupInformation();
+
+                Assert.That(result, Is.EqualTo(UserCreationResult.InvalidUsername));
+            }
+
+            [Test]
+            public void ReturnDuplicateUsernameResult_WhenTheUsernameHasAlreadyBeenRegistered()
+            {
+                UserCreationResult result = UserCreationResult.UnexpectedFailure;
+                Assert.That(result, Is.EqualTo(UserCreationResult.DuplicateUsername));
             }
         }
     }

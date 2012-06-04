@@ -2,6 +2,7 @@
 {
     using System;
     using System.Text.RegularExpressions;
+    using GiveCRM.Admin.BusinessLogic.Tests;
     using GiveCRM.Admin.Models;
 
     public class SignupService : ISignupService
@@ -59,6 +60,11 @@
             //TODO get this from database
             var token = "";
             return token == null ? "" : token.ToString();
+        }
+
+        public OptionalSignupInformationValidationResult SaveOptionalSignupInformation()
+        {
+            return OptionalSignupInformationValidationResult.Success;
         }
     }
 }
