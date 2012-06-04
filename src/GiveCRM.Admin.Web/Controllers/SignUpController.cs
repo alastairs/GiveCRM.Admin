@@ -49,6 +49,7 @@
             }
             
             var registrationInfo = GetRegistrationInfo(requiredInfoViewModel);
+            registrationInfo.SubDomain = signupService.GetSubDomainFromCharityName(registrationInfo.CharityName);
 
             var userRegistrationStatus = this.signupService.RegisterUser(registrationInfo);
             if (userRegistrationStatus != UserCreationResult.Success)
@@ -106,21 +107,9 @@
         {
             var registrationInfo = new RegistrationInfo();
             Mapper.DynamicMap(requiredInfoViewModel, registrationInfo);
+            Mapper.Map(requiredInfoViewModel, registrationInfo, options => registrationInfo.EmailAddress = requiredInfoViewModel.UserIdentifier);
             return registrationInfo;
         }
-
-        // TODO: Move this to SignupService in BusinessLogic layer.
-        //private void ProvisionService(RequiredInfoViewModel requiredInfoViewModel, Guid activationToken)
-        //{
-        //    var emailViewModel = new EmailViewModel
-        //                             {
-        //                                 To = requiredInfoViewModel.UserIdentifier,
-        //                                 ActivationToken = activationToken.AsQueryString()
-        //                             };
-
-        //    signUpQueueingService.QueueEmail(emailViewModel);
-        //    signUpQueueingService.QueueProvisioning();
-        //}
 
         [HttpGet]
         public ActionResult Complete()
