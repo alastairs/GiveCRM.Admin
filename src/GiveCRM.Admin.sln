@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiveCRM.Admin.BusinessLogic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiveCRM.IntegrationTests", "GiveCRM.IntegrationTests\GiveCRM.IntegrationTests.csproj", "{ED89D0BF-ECBA-4A57-87D2-F3BAF1304670}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiveCRM.Admin.TestUtils", "GiveCRM.Admin.TestUtils\GiveCRM.Admin.TestUtils.csproj", "{D85B23D8-7745-4A99-8C7E-0680AD7947BB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +79,10 @@ Global
 		{ED89D0BF-ECBA-4A57-87D2-F3BAF1304670}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED89D0BF-ECBA-4A57-87D2-F3BAF1304670}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED89D0BF-ECBA-4A57-87D2-F3BAF1304670}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D85B23D8-7745-4A99-8C7E-0680AD7947BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D85B23D8-7745-4A99-8C7E-0680AD7947BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D85B23D8-7745-4A99-8C7E-0680AD7947BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D85B23D8-7745-4A99-8C7E-0680AD7947BB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
