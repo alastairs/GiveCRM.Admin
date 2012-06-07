@@ -1,7 +1,6 @@
 ﻿namespace GiveCRM.Admin.BusinessLogic
 {
     using System;
-    using GiveCRM.Admin.BusinessLogic.Tests;
     using GiveCRM.Admin.Models;
 
     public interface ISignupService

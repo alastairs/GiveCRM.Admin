@@ -1,4 +1,4 @@
-namespace GiveCRM.Admin.BusinessLogic.Tests
+namespace GiveCRM.Admin.BusinessLogic
 {
     public class OptionalSignupInformation
     {

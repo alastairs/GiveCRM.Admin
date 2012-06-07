@@ -2,7 +2,6 @@
 {
     using System;
     using System.Text.RegularExpressions;
-    using GiveCRM.Admin.BusinessLogic.Tests;
     using GiveCRM.Admin.Models;
 
     public class SignupService : ISignupService
