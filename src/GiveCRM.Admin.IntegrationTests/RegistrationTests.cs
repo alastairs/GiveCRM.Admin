@@ -5,11 +5,9 @@
     using GiveCRM.Admin.DataAccess;
     using GiveCRM.Admin.TestUtils;
     using GiveCRM.Admin.Web.Controllers;
-    using GiveCRM.Admin.Web.Interfaces;
     using GiveCRM.Admin.Web.Services;
     using GiveCRM.Admin.Web.ViewModels.SignUp;
     using MvcContrib.TestHelper;
-    using NSubstitute;
     using NUnit.Framework;
 
     public class RegistrationTests
