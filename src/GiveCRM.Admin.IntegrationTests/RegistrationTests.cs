@@ -19,20 +19,43 @@
             DatabaseConnectionProvider = new SimpleDataFileDatabaseProvider("IntegrationTestDB.sdf");
         }
 
+        private static void ClearTables()
+        {
+            var db = DatabaseConnectionProvider.GetDatabase();
+
+            db.aspnet_Membership.Truncate();
+            db.aspnet_Users.Truncate();
+            db.aspnet_Applications.Truncate();
+
+            db.Charity.Truncate();
+            db.CharityMembership.Truncate();
+        }
+
         [TestFixture]
         public class RegistrationShould
         {
+            private IMembershipService membershipService;
+            private ICharityMembershipService charityMembershipService;
+
+            [SetUp]
+            public void SetUp()
+            {
+                ClearTables();
+
+                this.membershipService = new AspMembershipService(Membership.Provider);
+                this.charityMembershipService = new CharityMembershipService(new Charities(DatabaseConnectionProvider),
+                                                                             new CharitiesMemberships(DatabaseConnectionProvider));
+            }
+
             [Test]
             public void RedirectToCompleteAction_OnSuccessfulRegistration()
             {
                 var signUpController = new SignUpController(new WebConfigConfiguration(), 
-                                                            new SignupService(new AspMembershipService(Membership.Provider), 
-                                                                              new CharityMembershipService(new Charities(DatabaseConnectionProvider), 
-                                                                                                           new CharitiesMemberships(DatabaseConnectionProvider))));
+                                                            new SignupService(this.membershipService, this.charityMembershipService));
 
                 var requiredInfo = new RequiredInfoViewModel
                                        {
-                                           CharityName = "Royal Society for the Protection of Tests",
+                                           CharityName = "RSPCA",
                                            Password = "foobar-2000",
                                            TermsAccepted = true,
                                            UserIdentifier = "foo@bar.com"
