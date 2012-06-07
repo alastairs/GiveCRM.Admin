@@ -56,7 +56,7 @@
   <ItemGroup>
     <Compile Include="Charities.cs" />
     <Compile Include="CharitiesMemberships.cs" />
-    <Compile Include="SimpeDataNamedConnectionDatabaseProvider.cs" />
+    <Compile Include="SimpleDataNamedConnectionDatabaseProvider.cs" />
     <Compile Include="IDatabaseProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

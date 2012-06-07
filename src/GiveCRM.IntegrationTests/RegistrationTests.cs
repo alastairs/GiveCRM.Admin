@@ -11,11 +11,11 @@
 
     public class RegistrationTests
     {
-        private static readonly SimpeDataNamedConnectionDatabaseProvider DatabaseConnectionProvider;
+        private static readonly SimpleDataNamedConnectionDatabaseProvider DatabaseConnectionProvider;
 
         static RegistrationTests()
         {
-            DatabaseConnectionProvider = new SimpeDataNamedConnectionDatabaseProvider("");
+            DatabaseConnectionProvider = new SimpleDataNamedConnectionDatabaseProvider("");
         }
 
         [TestFixture]
