@@ -1,17 +1,20 @@
 ﻿using System.Linq;
 using GiveCRM.Admin.Models;
 using NUnit.Framework;
-using Simple.Data;
 
 namespace GiveCRM.Admin.DataAccess.Test
 {
+    using GiveCRM.Admin.TestUtils;
+
     [TestFixture]
     public class CharitiesMembershipsFacts
     {
+        private const string DatabaseFilePath = "TestDB.sdf";
+        
         [TestFixture]
         public class GetAllShould
         {
-            private readonly IDatabaseProvider db = new SimpleDataFileDatabaseProvider();
+            private readonly IDatabaseProvider db = new SimpleDataFileDatabaseProvider(DatabaseFilePath);
 
             [SetUp]
             public void Setup()
@@ -47,7 +50,7 @@ namespace GiveCRM.Admin.DataAccess.Test
         [TestFixture]
         public class GetByIdShould
         {
-            private readonly IDatabaseProvider db = new SimpleDataFileDatabaseProvider();
+            private readonly IDatabaseProvider db = new SimpleDataFileDatabaseProvider(DatabaseFilePath);
 
             [SetUp]
             public void Setup()
@@ -86,7 +89,7 @@ namespace GiveCRM.Admin.DataAccess.Test
         [TestFixture]
         public class SaveShould
         {
-            private readonly IDatabaseProvider db = new SimpleDataFileDatabaseProvider();
+            private readonly IDatabaseProvider db = new SimpleDataFileDatabaseProvider(DatabaseFilePath);
 
             [SetUp]
             public void Setup()
@@ -115,7 +118,7 @@ namespace GiveCRM.Admin.DataAccess.Test
         [TestFixture]
         public class DeleteShould
         {
-            private readonly IDatabaseProvider db = new SimpleDataFileDatabaseProvider();
+            private readonly IDatabaseProvider db = new SimpleDataFileDatabaseProvider(DatabaseFilePath);
             private CharityMembership charityMembership;
             
             [SetUp]
@@ -156,7 +159,7 @@ namespace GiveCRM.Admin.DataAccess.Test
         [TestFixture]
         public class DeleteByIdShould
         {
-            private readonly IDatabaseProvider db = new SimpleDataFileDatabaseProvider();
+            private readonly IDatabaseProvider db = new SimpleDataFileDatabaseProvider(DatabaseFilePath);
             private CharityMembership charityMembership;
 
             [SetUp]

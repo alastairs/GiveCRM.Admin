@@ -1,14 +1,15 @@
-﻿using System.Linq;
-using System.Text;
-using GiveCRM.Admin.Models;
-namespace GiveCRM.Admin.DataAccess.Test
+﻿namespace GiveCRM.Admin.DataAccess.Test
 {
+    using System.Linq;
+    using System.Text;
+    using GiveCRM.Admin.Models;
+    using GiveCRM.Admin.TestUtils;
     using NUnit.Framework;
 
     [TestFixture]
     public class CharitiesTest
     {
-        private readonly IDatabaseProvider db = new SimpleDataFileDatabaseProvider();
+        private readonly IDatabaseProvider db = new SimpleDataFileDatabaseProvider("TestDB.sdf");
 
         const string TestName = "Royal Society for Protection of Tests";
         const string TestUserId = "bob";

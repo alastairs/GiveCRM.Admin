@@ -1,12 +1,26 @@
-﻿using Simple.Data;
-
-namespace GiveCRM.Admin.DataAccess.Test
+﻿namespace GiveCRM.Admin.TestUtils
 {
-    class SimpleDataFileDatabaseProvider : IDatabaseProvider
+    using System;
+    using GiveCRM.Admin.DataAccess;
+    using Simple.Data;
+
+    public class SimpleDataFileDatabaseProvider : IDatabaseProvider
     {
+        private readonly string databaseFilePath;
+
+        public SimpleDataFileDatabaseProvider(string databaseFilePath)
+        {
+            if (string.IsNullOrWhiteSpace(databaseFilePath))
+            {
+                throw new ArgumentNullException("databaseFilePath");
+            }
+
+            this.databaseFilePath = databaseFilePath;
+        }
+
         public dynamic GetDatabase()
         {
-            return Database.OpenFile("TestDB.sdf");
+            return Database.OpenFile(databaseFilePath);
         }
     }
 }
