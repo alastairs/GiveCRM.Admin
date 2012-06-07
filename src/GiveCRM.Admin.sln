@@ -31,7 +31,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation Layer", "Prese
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiveCRM.Admin.BusinessLogic.Tests", "GiveCRM.Admin.BusinessLogic.Tests\GiveCRM.Admin.BusinessLogic.Tests.csproj", "{A6422EF7-F8A5-43B8-B9A4-2D2B18D177EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiveCRM.IntegrationTests", "GiveCRM.IntegrationTests\GiveCRM.IntegrationTests.csproj", "{ED89D0BF-ECBA-4A57-87D2-F3BAF1304670}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiveCRM.Admin.IntegrationTests", "GiveCRM.IntegrationTests\GiveCRM.Admin.IntegrationTests.csproj", "{ED89D0BF-ECBA-4A57-87D2-F3BAF1304670}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiveCRM.Admin.TestUtils", "GiveCRM.Admin.TestUtils\GiveCRM.Admin.TestUtils.csproj", "{D85B23D8-7745-4A99-8C7E-0680AD7947BB}"
 EndProject
