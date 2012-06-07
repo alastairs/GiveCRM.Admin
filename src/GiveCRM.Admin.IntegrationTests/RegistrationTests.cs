@@ -35,7 +35,7 @@
                 var requiredInfo = new RequiredInfoViewModel
                                        {
                                            CharityName = "Royal Society for the Protection of Tests",
-                                           Password = "foobar2000",
+                                           Password = "foobar-2000",
                                            TermsAccepted = true,
                                            UserIdentifier = "foo@bar.com"
                                        };
