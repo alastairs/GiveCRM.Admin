@@ -1,7 +1,6 @@
 ﻿namespace GiveCRM.Admin.Web.Controllers
 {
     using System;
-    using System.Text.RegularExpressions;
     using System.Web.Mvc;
 
     using AutoMapper;
@@ -9,7 +8,6 @@
     using GiveCRM.Admin.BusinessLogic;
     using GiveCRM.Admin.Models;
     using GiveCRM.Admin.Web.Helpers;
-    using GiveCRM.Admin.Web.Services;
     using GiveCRM.Admin.Web.ViewModels.SignUp;
     using IConfiguration = GiveCRM.Admin.Web.Interfaces.IConfiguration;
 
