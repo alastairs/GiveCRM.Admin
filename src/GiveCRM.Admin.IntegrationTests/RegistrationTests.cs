@@ -12,39 +12,19 @@
 
     public class RegistrationTests
     {
-        private static readonly IDatabaseProvider DatabaseConnectionProvider;
-
-        static RegistrationTests()
-        {
-            DatabaseConnectionProvider = new SimpleDataFileDatabaseProvider("IntegrationTestDB.sdf");
-        }
-
-        private static void ClearTables()
-        {
-            var db = DatabaseConnectionProvider.GetDatabase();
-
-            db.aspnet_Membership.Truncate();
-            db.aspnet_Users.Truncate();
-            db.aspnet_Applications.Truncate();
-
-            db.Charity.Truncate();
-            db.CharityMembership.Truncate();
-        }
-
         [TestFixture]
-        public class RegistrationShould
+        public class RegistrationShould : IntegrationTest
         {
             private IMembershipService membershipService;
             private ICharityMembershipService charityMembershipService;
 
-            [SetUp]
-            public void SetUp()
+            protected override void TestSetup()
             {
-                ClearTables();
+                base.TestSetup();
 
                 this.membershipService = new AspMembershipService(Membership.Provider);
-                this.charityMembershipService = new CharityMembershipService(new Charities(DatabaseConnectionProvider),
-                                                                             new CharitiesMemberships(DatabaseConnectionProvider));
+                this.charityMembershipService = new CharityMembershipService(new Charities(this.DatabaseConnectionProvider),
+                                                                             new CharitiesMemberships(this.DatabaseConnectionProvider));
             }
 
             [Test]
