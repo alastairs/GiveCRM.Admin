@@ -38,12 +38,12 @@ namespace GiveCRM.Admin.TestUtils
         {
             var db = this.databaseConnectionProvider.GetDatabase();
 
-            db.aspnet_Membership.Truncate();
-            db.aspnet_Users.Truncate();
-            db.aspnet_Applications.Truncate();
+            db.aspnet_Membership.DeleteAll();
+            db.aspnet_Users.DeleteAll();
+            db.aspnet_Applications.DeleteAll();
 
-            db.Charity.Truncate();
-            db.CharityMembership.Truncate();
+            db.Charity.DeleteAll();
+            db.CharityMembership.DeleteAll();
         }
     }
 }
