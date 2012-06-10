@@ -160,12 +160,6 @@
             }
 
             [Test]
-            public void ReturnInvalidNameResult_WhenTheCharityNameContainsInvalidCharacters()
-            {
-                // Do we even want this?
-            }
-
-            [Test]
             public void ReturnInvalidSubdomainResult_WhenTheSubdomainContainsADotCharacter()
             {
                 var membershipService = Substitute.For<IMembershipService>();
