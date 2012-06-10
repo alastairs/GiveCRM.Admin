@@ -8,8 +8,8 @@
     <ProjectGuid>{ED89D0BF-ECBA-4A57-87D2-F3BAF1304670}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GiveCRM.IntegrationTests</RootNamespace>
-    <AssemblyName>GiveCRM.IntegrationTests</AssemblyName>
+    <RootNamespace>GiveCRM.Admin.IntegrationTests</RootNamespace>
+    <AssemblyName>GiveCRM.Admin.IntegrationTests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>

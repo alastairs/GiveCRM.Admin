@@ -1,4 +1,4 @@
-﻿namespace GiveCRM.IntegrationTests
+﻿namespace GiveCRM.Admin.IntegrationTests
 {
     using System.Web.Security;
     using GiveCRM.Admin.BusinessLogic;
