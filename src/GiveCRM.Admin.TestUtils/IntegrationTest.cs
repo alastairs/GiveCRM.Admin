@@ -38,9 +38,13 @@ namespace GiveCRM.Admin.TestUtils
         {
             var db = this.databaseConnectionProvider.GetDatabase();
 
-            db.aspnet_Membership.DeleteAll();
-            db.aspnet_Users.DeleteAll();
-            db.aspnet_Applications.DeleteAll();
+            db.Memberships.DeleteAll();
+            db.Profiles.DeleteAll();
+            db.UsersInRoles.DeleteAll();
+            db.Roles.DeleteAll();
+            db.Users.DeleteAll();
+
+            db.Applications.DeleteAll();
 
             db.Charity.DeleteAll();
             db.CharityMembership.DeleteAll();
