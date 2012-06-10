@@ -187,10 +187,10 @@
   </Target>-->
   <Target Name="AfterBuild">
     <ItemGroup>
-      <GiveCRM_DataAccess Include="$(ProjectDir)..\GiveCRM.DataAccess\bin\$(Configuration)\GiveCRM.DataAccess.*" />
-      <Simple_Data Include="$(ProjectDir)..\GiveCRM.DataAccess\bin\$(Configuration)\Simple.Data.*" />
+      <GiveCRM_Admin_DataAccess Include="$(ProjectDir)..\GiveCRM.Admin.DataAccess\bin\$(Configuration)\GiveCRM.Admin.DataAccess.*" />
+      <Simple_Data Include="$(ProjectDir)..\GiveCRM.Admin.DataAccess\bin\$(Configuration)\Simple.Data.*" />
     </ItemGroup>
-    <Copy SourceFiles="@(GiveCRM_DataAccess)" DestinationFolder="$(OutputPath)" />
+    <Copy SourceFiles="@(GiveCRM_Admin_DataAccess)" DestinationFolder="$(OutputPath)" />
     <Copy SourceFiles="@(Simple_Data)" DestinationFolder="$(OutputPath)" />
   </Target>
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
