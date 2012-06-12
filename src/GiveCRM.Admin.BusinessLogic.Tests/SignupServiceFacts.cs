@@ -244,6 +244,7 @@
         }
 
         [TestFixture]
+        [Ignore("We don't have a way of implementing charity number validation at the moment.")]
         public class SaveOptionalSignupInformationShould
         {
             [Test]
