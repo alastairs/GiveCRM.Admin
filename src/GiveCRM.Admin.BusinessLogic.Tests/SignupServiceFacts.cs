@@ -244,6 +244,142 @@
         }
 
         [TestFixture]
+        public class GetSubdomainFromCharityNameShould
+        {
+            [Test]
+            public void AllowLetters()
+            {
+                var membershipService = Substitute.For<IMembershipService>();
+                var charityMembershipService = Substitute.For<ICharityMembershipService>();
+                var signupService = new SignupService(membershipService, charityMembershipService);
+
+                var subdomain = signupService.GetSubDomainFromCharityName("foobar");
+
+                Assert.That(subdomain, Is.EqualTo("foobar"));
+            }
+
+            [Test]
+            public void AllowNumbers()
+            {
+                var membershipService = Substitute.For<IMembershipService>();
+                var charityMembershipService = Substitute.For<ICharityMembershipService>();
+                var signupService = new SignupService(membershipService, charityMembershipService);
+
+                var subdomain = signupService.GetSubDomainFromCharityName("1234");
+
+                Assert.That(subdomain, Is.EqualTo("1234"));
+            }
+
+            [Test]
+            public void AllowHyphens()
+            {
+                var membershipService = Substitute.For<IMembershipService>();
+                var charityMembershipService = Substitute.For<ICharityMembershipService>();
+                var signupService = new SignupService(membershipService, charityMembershipService);
+
+                var subdomain = signupService.GetSubDomainFromCharityName("Foo-Bar");
+
+                Assert.That(subdomain, Is.EqualTo("foo-bar"));
+            }
+
+            [Test]
+            public void ConvertTheCharityNameToLowerCase()
+            {
+                var membershipService = Substitute.For<IMembershipService>();
+                var charityMembershipService = Substitute.For<ICharityMembershipService>();
+                var signupService = new SignupService(membershipService, charityMembershipService);
+
+                var subdomain = signupService.GetSubDomainFromCharityName("FUBAR");
+
+                Assert.That(subdomain, Is.EqualTo("fubar"));
+            }
+
+            [Test]
+            public void ReplaceSpacesWithHyphens()
+            {
+                var membershipService = Substitute.For<IMembershipService>();
+                var charityMembershipService = Substitute.For<ICharityMembershipService>();
+                var signupService = new SignupService(membershipService, charityMembershipService);
+
+                var subdomain = signupService.GetSubDomainFromCharityName("Foo Bar");
+
+                Assert.That(subdomain, Is.EqualTo("foo-bar"));
+            }
+
+            [Test]
+            public void ReplaceTabsWithHyphens()
+            {
+                var membershipService = Substitute.For<IMembershipService>();
+                var charityMembershipService = Substitute.For<ICharityMembershipService>();
+                var signupService = new SignupService(membershipService, charityMembershipService);
+
+                var subdomain = signupService.GetSubDomainFromCharityName("Foo\tBar");
+
+                Assert.That(subdomain, Is.EqualTo("foo-bar"));
+            }
+
+            [Test]
+            public void ReplaceLineFeedsWithHyphens()
+            {
+                var membershipService = Substitute.For<IMembershipService>();
+                var charityMembershipService = Substitute.For<ICharityMembershipService>();
+                var signupService = new SignupService(membershipService, charityMembershipService);
+
+                var subdomain = signupService.GetSubDomainFromCharityName("Foo\nBar");
+
+                Assert.That(subdomain, Is.EqualTo("foo-bar"));
+            }
+
+            [Test]
+            public void ReplaceCarriageReturnsWithHyphens()
+            {
+                var membershipService = Substitute.For<IMembershipService>();
+                var charityMembershipService = Substitute.For<ICharityMembershipService>();
+                var signupService = new SignupService(membershipService, charityMembershipService);
+
+                var subdomain = signupService.GetSubDomainFromCharityName("Foo\rBar");
+
+                Assert.That(subdomain, Is.EqualTo("foo-bar"));
+            }
+
+            [Test]
+            public void ReplaceSequentialWhitespaceWithASingleHyphen()
+            {
+                var membershipService = Substitute.For<IMembershipService>();
+                var charityMembershipService = Substitute.For<ICharityMembershipService>();
+                var signupService = new SignupService(membershipService, charityMembershipService);
+
+                var subdomain = signupService.GetSubDomainFromCharityName("Foo \r\nBar");
+
+                Assert.That(subdomain, Is.EqualTo("foo-bar"));
+            }
+
+            [Test]
+            public void RemoveInvalidCharacters()
+            {
+                var membershipService = Substitute.For<IMembershipService>();
+                var charityMembershipService = Substitute.For<ICharityMembershipService>();
+                var signupService = new SignupService(membershipService, charityMembershipService);
+
+                var subdomain = signupService.GetSubDomainFromCharityName("f@u-\"b\'a\\r");
+
+                Assert.That(subdomain, Is.EqualTo("fu-bar"));
+            }
+
+            [Test]
+            public void RemoveSequentialInvalidCharacters()
+            {
+                var membershipService = Substitute.For<IMembershipService>();
+                var charityMembershipService = Substitute.For<ICharityMembershipService>();
+                var signupService = new SignupService(membershipService, charityMembershipService);
+
+                var subdomain = signupService.GetSubDomainFromCharityName("fu@\"\\bar");
+
+                Assert.That(subdomain, Is.EqualTo("fubar"));
+            }
+        }
+
+        [TestFixture]
         [Ignore("We don't have a way of implementing charity number validation at the moment.")]
         public class SaveOptionalSignupInformationShould
         {
