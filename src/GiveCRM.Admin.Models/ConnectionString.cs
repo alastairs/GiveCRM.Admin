@@ -14,30 +14,37 @@ namespace GiveCRM.Admin.Models
                 throw new ArgumentNullException("connectionString");
             }
 
-            var equalsPosition = connectionString.IndexOf("=");
-            string parameterName = connectionString.Substring(0, equalsPosition);
-
-            var parameterValue = connectionString.Substring(equalsPosition + 1);
-            if (parameterName == "Data Source")
+            var parameters = connectionString.Split(';');
+            foreach (var parameter in parameters)
             {
-                this.host = parameterValue;
-            }
-            else if (parameterName == "Trusted Connection")
-            {
-                bool parsedValue;
-                if (Boolean.TryParse(parameterValue, out parsedValue))
-                {
-                    this.TrustedConnection = parsedValue;
-                }
-                else
-                {
-                    throw new ArgumentException(
-                        string.Format("Unsupported value for '{0}' parameter: '{1}'. Supported values are: {2}", parameterName, parameterValue,
-                                      string.Join(", ", new[] { "True", "False" })));
-                }
-            }
+                var parameterDetails = parameter.Split('=');
+                string parameterName = parameterDetails[0];
+                var parameterValue = parameterDetails[1];
 
-            this.database = parameterValue;
+                if (parameterName == "Data Source")
+                {
+                    this.host = parameterValue;
+                }
+                else if (parameterName == "Trusted Connection")
+                {
+                    this.TrustedConnection = this.ParseBool(parameterValue, parameterName);
+                }
+
+                this.database = parameterValue;
+            }
+        }
+
+        private bool ParseBool(string parameterValue, string parameterName)
+        {
+            bool parsedValue;
+            if (Boolean.TryParse(parameterValue, out parsedValue))
+            {
+                return parsedValue;
+            }
+            
+            throw new ArgumentException(
+                string.Format("Unsupported value for '{0}' parameter: '{1}'. Supported values are: {2}", parameterName, parameterValue,
+                              string.Join(", ", new[] { "True", "False" })));
         }
 
         public string Database

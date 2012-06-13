@@ -59,6 +59,14 @@
             }
 
             [Test]
+            public void StopParsingTheParameter_WhenASemicolonIsEncountered()
+            {
+                var connectionString = new ConnectionString("Data Source=foo;Initial Catalog=bar");
+
+                Assert.That(connectionString.Host, Is.EqualTo("foo"));
+            }
+
+            [Test]
             public void ThrowAnArgumentException_WhenTheConnectionStringDefinesTrustedConnectionAsANonBooleanValue()
             {
                 Assert.That(() => new ConnectionString("Trusted Connection=foo"),
