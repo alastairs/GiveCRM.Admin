@@ -67,6 +67,14 @@
             }
 
             [Test]
+            public void TrimAnyTrailingSemiColon()
+            {
+                var connectionString = new ConnectionString("Data Source=foo;");
+
+                Assert.That(connectionString.Host, Is.EqualTo("foo"));
+            }
+
+            [Test]
             public void ThrowAnArgumentException_WhenTheConnectionStringDefinesTrustedConnectionAsANonBooleanValue()
             {
                 Assert.That(() => new ConnectionString("Trusted Connection=foo"),

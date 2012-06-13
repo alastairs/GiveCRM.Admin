@@ -14,6 +14,8 @@ namespace GiveCRM.Admin.Models
                 throw new ArgumentNullException("connectionString");
             }
 
+            connectionString = connectionString.TrimEnd(';');
+
             var parameters = connectionString.Split(';');
             foreach (var parameter in parameters)
             {
