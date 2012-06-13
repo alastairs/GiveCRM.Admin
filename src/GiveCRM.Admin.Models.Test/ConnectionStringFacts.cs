@@ -25,6 +25,14 @@
             {
                 Assert.That(() => new ConnectionString("    "), Throws.InstanceOf<ArgumentNullException>());
             }
+
+            [Test]
+            public void SetTheDatabaseProperty_WhenTheConnectionStringDefinesADatabase()
+            {
+                var connectionString = new ConnectionString("Database=foo");
+                
+                Assert.That(connectionString.Database, Is.EqualTo("foo"));
+            }
         }
     }
 }
