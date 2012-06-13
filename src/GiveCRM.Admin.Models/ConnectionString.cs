@@ -24,10 +24,16 @@ namespace GiveCRM.Admin.Models
             }
             else if (parameterName == "Trusted Connection")
             {
-                bool parseResult;
-                if (Boolean.TryParse(parameterValue, out parseResult))
+                bool parsedValue;
+                if (Boolean.TryParse(parameterValue, out parsedValue))
                 {
-                    this.TrustedConnection = parseResult;
+                    this.TrustedConnection = parsedValue;
+                }
+                else
+                {
+                    throw new ArgumentException(
+                        string.Format("Unsupported value for '{0}' parameter: '{1}'. Supported values are: {2}", parameterName, parameterValue,
+                                      string.Join(", ", new[] { "True", "False" })));
                 }
             }
 

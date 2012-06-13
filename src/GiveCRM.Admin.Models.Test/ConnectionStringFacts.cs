@@ -59,6 +59,14 @@
             }
 
             [Test]
+            public void ThrowAnArgumentException_WhenTheConnectionStringDefinesTrustedConnectionAsANonBooleanValue()
+            {
+                Assert.That(() => new ConnectionString("Trusted Connection=foo"),
+                            Throws.ArgumentException.With.Message.EqualTo(
+                                "Unsupported value for 'Trusted Connection' parameter: 'foo'. Supported values are: True, False"));
+            }
+
+            [Test]
             public void ParseAFullConnectionString()
             {
                 var connectionString = new ConnectionString("Data Source=foo;Initial Catalog=bar;Integrated Security=SSPI;");
