@@ -1,6 +1,7 @@
 ﻿namespace GiveCRM.Admin.BusinessLogic
 {
     using System;
+    using System.Linq;
     using System.Text.RegularExpressions;
     using GiveCRM.Admin.Models;
 
@@ -50,9 +51,14 @@
 
         public string GetSubDomainFromCharityName(string charityName)
         {
-            var result = charityName.Trim();
-            result = Regex.Replace(result, @"[\s]+", "-");
-            return Regex.Replace(result, @"[^\w-]", string.Empty).ToLower();
+            var subdomain = charityName.Trim();
+            
+            subdomain = Regex.Replace(subdomain, @"[\s]+", "-");
+            subdomain = Regex.Replace(subdomain, @"[^\w-]", string.Empty);
+
+            subdomain = subdomain.ToLower();
+            
+            return new string(subdomain.Take(63).ToArray());
         }
 
         public string GetSubDomainFromActivationToken(string activationToken)

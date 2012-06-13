@@ -1,6 +1,7 @@
 ﻿namespace GiveCRM.Admin.BusinessLogic.Tests
 {
     using System;
+    using System.Linq;
     using GiveCRM.Admin.BusinessLogic;
     using GiveCRM.Admin.Models;
     using NSubstitute;
@@ -292,6 +293,18 @@
                 var subdomain = signupService.GetSubDomainFromCharityName("FUBAR");
 
                 Assert.That(subdomain, Is.EqualTo("fubar"));
+            }
+
+            [Test]
+            public void ReturnASubdomainWithAtMost63Characters()
+            {
+                var membershipService = Substitute.For<IMembershipService>();
+                var charityMembershipService = Substitute.For<ICharityMembershipService>();
+                var signupService = new SignupService(membershipService, charityMembershipService);
+
+                var subdomain = signupService.GetSubDomainFromCharityName(new string(Enumerable.Repeat('a', 64).ToArray()));
+
+                Assert.That(subdomain.Length, Is.EqualTo(63));
             }
 
             [Test]
