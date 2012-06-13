@@ -31,8 +31,10 @@ namespace GiveCRM.Admin.Models
                 {
                     this.TrustedConnection = this.ParseBool(parameterValue, parameterName);
                 }
-
-                this.database = parameterValue;
+                else if (parameterName == "Database" || parameterName == "Initial Catalog")
+                {
+                    this.database = parameterValue;
+                }
             }
         }
 

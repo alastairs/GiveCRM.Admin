@@ -35,6 +35,14 @@
             }
 
             [Test]
+            public void SetTheDatabaseProperty_WhenTheConnectionStringDefinesAnInitialCatalog()
+            {
+                var connectionString = new ConnectionString("Initial Catalog=foo");
+               
+                Assert.That(connectionString.Database, Is.EqualTo("foo"));
+            }
+
+            [Test]
             public void SetTheHostProperty_WhenTheConnectionStringDefinesADataSource()
             {
                 var connectionString = new ConnectionString("Data Source=foo");
