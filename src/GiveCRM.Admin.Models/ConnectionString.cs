@@ -14,14 +14,16 @@ namespace GiveCRM.Admin.Models
                 throw new ArgumentNullException("connectionString");
             }
 
-            string parameterName = connectionString.Substring(0, connectionString.IndexOf("="));
+            var equalsPosition = connectionString.IndexOf("=");
+            string parameterName = connectionString.Substring(0, equalsPosition);
 
+            var parameterValue = connectionString.Substring(equalsPosition + 1);
             if (parameterName == "Data Source")
             {
-                this.host = connectionString.Substring(connectionString.IndexOf("=") + 1);
+                this.host = parameterValue;
             }
 
-            this.database = connectionString.Substring(connectionString.IndexOf("=") + 1);
+            this.database = parameterValue;
         }
 
         public string Database
