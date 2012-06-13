@@ -22,6 +22,10 @@ namespace GiveCRM.Admin.Models
             {
                 this.host = parameterValue;
             }
+            else if (parameterName == "Trusted Connection")
+            {
+                this.TrustedConnection = true;
+            }
 
             this.database = parameterValue;
         }
