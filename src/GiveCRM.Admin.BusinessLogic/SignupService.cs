@@ -50,7 +50,8 @@
 
         public string GetSubDomainFromCharityName(string charityName)
         {
-            var result = Regex.Replace(charityName, @"[\s]+", "-");
+            var result = charityName.TrimStart();
+            result = Regex.Replace(result, @"[\s]+", "-");
             return Regex.Replace(result, @"[^\w-]", string.Empty).ToLower();
         }
 
