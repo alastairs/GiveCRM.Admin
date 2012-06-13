@@ -67,6 +67,14 @@
             }
 
             [Test]
+            public void SetTheTrustedConnectionPropertyToTrue_WhenTheConnectionStringDefinesIntegratedSecurityUsingSSPI()
+            {
+                var connectionString = new ConnectionString("Integrated Security=SSPI");
+
+                Assert.That(connectionString.TrustedConnection, Is.True);
+            }
+
+            [Test]
             public void StopParsingTheParameter_WhenASemicolonIsEncountered()
             {
                 var connectionString = new ConnectionString("Data Source=foo;Initial Catalog=bar");

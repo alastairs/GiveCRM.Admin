@@ -29,11 +29,15 @@ namespace GiveCRM.Admin.Models
                 }
                 else if (parameterName == "Trusted Connection")
                 {
-                    this.TrustedConnection = this.ParseBool(parameterValue, parameterName);
+                    this.trustedConnection = this.ParseBool(parameterValue, parameterName);
                 }
                 else if (parameterName == "Database" || parameterName == "Initial Catalog")
                 {
                     this.database = parameterValue;
+                } 
+                else if (parameterName == "Integrated Security")
+                {
+                    this.trustedConnection = parameterValue == "SSPI";
                 }
             }
         }
@@ -61,6 +65,10 @@ namespace GiveCRM.Admin.Models
             get { return this.host; }
         }
 
-        public bool TrustedConnection { get; set; }
+        private bool trustedConnection;
+        public bool TrustedConnection
+        {
+            get { return this.trustedConnection; }
+        }
     }
 }
