@@ -20,5 +20,9 @@ namespace GiveCRM.Admin.Models
         {
             get { return database; }
         }
+
+        public string Host { get; set; }
+
+        public bool TrustedConnection { get; set; }
     }
 }
