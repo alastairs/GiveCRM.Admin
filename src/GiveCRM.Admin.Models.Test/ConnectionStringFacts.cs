@@ -35,11 +35,19 @@
             }
 
             [Test]
+            public void SetTheHostProperty_WhenTheConnectionStringDefinesADataSource()
+            {
+                var connectionString = new ConnectionString("Data Source=foo");
+
+                Assert.That(connectionString.Host, Is.EqualTo("foo"));
+            }
+
+            [Test]
             public void ParseAFullConnectionString()
             {
                 var connectionString = new ConnectionString("Data Source=foo;Initial Catalog=bar;Integrated Security=SSPI;");
 
-                Assert.That(connectionString.Server, Is.EqualTo("foo"));
+                Assert.That(connectionString.Host, Is.EqualTo("foo"));
                 Assert.That(connectionString.Database, Is.EqualTo("bar"));
                 Assert.That(connectionString.TrustedConnection, Is.True);
             }

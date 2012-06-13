@@ -4,7 +4,8 @@ namespace GiveCRM.Admin.Models
 
     public class ConnectionString
     {
-        private string database;
+        private readonly string database;
+        private readonly string host;
 
         public ConnectionString(string connectionString)
         {
@@ -13,15 +14,25 @@ namespace GiveCRM.Admin.Models
                 throw new ArgumentNullException("connectionString");
             }
 
+            string parameterName = connectionString.Substring(0, connectionString.IndexOf("="));
+
+            if (parameterName == "Data Source")
+            {
+                this.host = connectionString.Substring(connectionString.IndexOf("=") + 1);
+            }
+
             this.database = connectionString.Substring(connectionString.IndexOf("=") + 1);
         }
 
         public string Database
         {
-            get { return database; }
+            get { return this.database; }
         }
 
-        public string Host { get; set; }
+        public string Host
+        {
+            get { return this.host; }
+        }
 
         public bool TrustedConnection { get; set; }
     }
