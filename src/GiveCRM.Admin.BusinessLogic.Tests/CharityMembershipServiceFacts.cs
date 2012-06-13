@@ -29,6 +29,29 @@
 
                 Assert.That(result, Is.EqualTo(CharityCreationResult.Success));
             }
+
+            [Test]
+            public void CreateAConnectionStringForTheCharity()
+            {
+                var charityRepository = Substitute.For<ICharityRepository>();
+                var charitiesMembersRepository = Substitute.For<ICharitiesMembershipRepository>();
+                var charityMembershipService = new CharityMembershipService(charityRepository, charitiesMembersRepository);
+
+                charityMembershipService.RegisterCharity(new RegistrationInfo
+                {
+                   CharityName = "foo",
+                   EmailAddress = "foo@bar.com",
+                   Password = "password",
+                   SubDomain = "foo",
+                   TermsAccepted = true
+                });
+
+                charityRepository.Received().Save(new Charity
+                {
+                    Name = "foo",
+                    SubDomain = "foo"
+                });
+            }
         }
 
         [TestFixture]

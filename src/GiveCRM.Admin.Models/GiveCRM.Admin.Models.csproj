@@ -45,6 +45,7 @@
     <Compile Include="Charity.cs" />
     <Compile Include="CharityCreationResult.cs" />
     <Compile Include="CharityMembership.cs" />
+    <Compile Include="ConnectionString.cs" />
     <Compile Include="Encryption.cs" />
     <Compile Include="IMember.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
