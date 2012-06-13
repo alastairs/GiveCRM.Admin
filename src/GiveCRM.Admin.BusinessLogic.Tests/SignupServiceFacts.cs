@@ -367,6 +367,18 @@
             }
 
             [Test]
+            public void RemoveTrailingWhitespace()
+            {
+                var membershipService = Substitute.For<IMembershipService>();
+                var charityMembershipService = Substitute.For<ICharityMembershipService>();
+                var signupService = new SignupService(membershipService, charityMembershipService);
+
+                var subdomain = signupService.GetSubDomainFromCharityName("foobar  ");
+
+                Assert.That(subdomain, Is.EqualTo("foobar"));
+            }
+
+            [Test]
             public void RemoveInvalidCharacters()
             {
                 var membershipService = Substitute.For<IMembershipService>();
