@@ -51,6 +51,14 @@
             }
 
             [Test]
+            public void SetTheTrustedConnectionPropertyToFalse_WhenTheConnectionStringDefinesTrustedConnectionIsFalse()
+            {
+                var connectionString = new ConnectionString("Trusted Connection=false");
+
+                Assert.That(connectionString.TrustedConnection, Is.False);
+            }
+
+            [Test]
             public void ParseAFullConnectionString()
             {
                 var connectionString = new ConnectionString("Data Source=foo;Initial Catalog=bar;Integrated Security=SSPI;");

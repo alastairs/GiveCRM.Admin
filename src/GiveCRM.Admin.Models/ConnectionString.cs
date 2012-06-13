@@ -24,7 +24,11 @@ namespace GiveCRM.Admin.Models
             }
             else if (parameterName == "Trusted Connection")
             {
-                this.TrustedConnection = true;
+                bool parseResult;
+                if (Boolean.TryParse(parameterValue, out parseResult))
+                {
+                    this.TrustedConnection = parseResult;
+                }
             }
 
             this.database = parameterValue;
